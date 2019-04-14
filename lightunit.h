@@ -16,27 +16,30 @@ typedef struct
 {
     test_info_t *tests;
     int status;
+    char *name;
 } suite_t;
 
 
 #define LU_TEST_SUITE(suite_name__)     \
-suite_t suite_name__##_obj;   \
-suite_t *suite_name__ = &suite_name__##_obj;  \
-__attribute__((constructor(101)))   \
-void init_##suite_name__()    \
-{   \
-    suite_name__->tests = NULL; \
-    suite_name__->status = 0;   \
-}   \
-__attribute__((destructor)) \
-void destroy_##suite_name__() {   \
-    test_info_t *cur = suite_name__->tests, *next = NULL;   \
-    while (cur) \
-    {   \
-        next = cur->next_test;  \
-        free(cur);  \
-        cur = next; \
-    }}
+            suite_t suite_name__##_obj;   \
+            suite_t *suite_name__ = &suite_name__##_obj;  \
+            __attribute__((constructor(101)))   \
+            void init_##suite_name__()    \
+            {   \
+                suite_name__->tests = NULL; \
+                suite_name__->status = 0;   \
+                suite_name__->name = #suite_name__ ;  \
+            }   \
+            __attribute__((destructor)) \
+            void destroy_##suite_name__() {   \
+                test_info_t *cur = suite_name__->tests, *next = NULL;   \
+                while (cur) \
+                {   \
+                    next = cur->next_test;  \
+                    free(cur);  \
+                    cur = next; \
+                }   \
+            }
 
 
 #endif /* LIGHTUNIT_HEADER_FILE_INCLUDED */

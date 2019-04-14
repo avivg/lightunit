@@ -3,25 +3,6 @@
 
 #include <lightunit.h>
 
-// suite_t basic_suite_obj;
-// suite_t *basic_suite = &basic_suite_obj;
-// __attribute__((constructor(101)))
-// void init_basic_suite()
-// {
-//     basic_suite->tests = NULL;
-//     basic_suite->status = 0;
-// }
-// __attribute__((destructor))
-// void destroy_basic_suite()
-// {
-//     test_info_t *cur = basic_suite->tests, *next = NULL;
-//     while (cur)
-//     {
-//         next = cur->next_test;
-//         free(cur);
-//         cur = next;
-//     }
-// }
 LU_TEST_SUITE(basic_suite)
 /***************************************************/
 
@@ -73,6 +54,7 @@ static void lightunit_execute_suite(suite_t *suite)
 static void lightunit_report_suite(suite_t *suite)
 {
     test_info_t *test_info = suite->tests;
+    printf("SUITE: %s\n", suite->name);
     while (test_info)
     {
         printf("STATUS: %2d, MSG: %s\n", test_info->result, test_info->msg);

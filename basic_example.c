@@ -3,45 +3,26 @@
 
 #include <lightunit.h>
 
-/***************************************************/
-typedef struct test_info_s test_info_t;
-typedef void (*test_fcn_t)(test_info_t*);
-
-struct test_info_s
-{
-    test_info_t *next_test;
-    test_fcn_t test_fcn;
-    int result;
-    char *msg;
-};
-
-typedef struct
-{
-    test_info_t *tests;
-    int status;
-} suite_t;
-/***************************************************/
-
-/***************************************************/
-suite_t basic_suite_obj;
-suite_t *basic_suite = &basic_suite_obj;
-__attribute__((constructor(101)))
-void init_basic_suite()
-{
-    basic_suite->tests = NULL;
-    basic_suite->status = 0;
-}
-__attribute__((destructor))
-void destroy_basic_suite()
-{
-    test_info_t *cur = basic_suite->tests, *next = NULL;
-    while (cur)
-    {
-        next = cur->next_test;
-        free(cur);
-        cur = next;
-    }
-}
+// suite_t basic_suite_obj;
+// suite_t *basic_suite = &basic_suite_obj;
+// __attribute__((constructor(101)))
+// void init_basic_suite()
+// {
+//     basic_suite->tests = NULL;
+//     basic_suite->status = 0;
+// }
+// __attribute__((destructor))
+// void destroy_basic_suite()
+// {
+//     test_info_t *cur = basic_suite->tests, *next = NULL;
+//     while (cur)
+//     {
+//         next = cur->next_test;
+//         free(cur);
+//         cur = next;
+//     }
+// }
+LU_TEST_SUITE(basic_suite)
 /***************************************************/
 
 /***************************************************/
@@ -106,7 +87,6 @@ static int lightunit_status_suite(suite_t *suite)
 
 int main()
 {
-    printf("main start\n");
     // LU_SUITE_RUN(basic_suite);
     // LU_SUITE_REPORT(basic_suite);
     // return LU_SUITE_STATUS(basic_suite);

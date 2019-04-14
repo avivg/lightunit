@@ -1,20 +1,23 @@
+#include <stdlib.h>
 #include <stdio.h>
+
 #include <lightunit.h>
-#include <clist.h>
 
 /***************************************************/
-typedef void (*test_fcn_t)(int *, char **);
+typedef struct test_info_s test_info_t;
+typedef void (*test_fcn_t)(test_info_t*);
 
-typedef struct
+struct test_info_s
 {
-    test_fcn_t test;
+    test_info_t *next_test;
+    test_fcn_t test_fcn;
     int result;
     char *msg;
-} test_info_t;
+};
 
 typedef struct
 {
-    clist_t tests;
+    test_info_t *tests;
     int status;
 } suite_t;
 /***************************************************/
@@ -25,68 +28,74 @@ suite_t *basic_suite = &basic_suite_obj;
 __attribute__((constructor(101)))
 void init_basic_suite()
 {
-    printf("Creating suite!\n");
-    basic_suite->tests = clist_create(sizeof(test_info_t));
+    basic_suite->tests = NULL;
     basic_suite->status = 0;
 }
 __attribute__((destructor))
 void destroy_basic_suite()
 {
-    printf("Releasing suite!\n");
-    clist_free(basic_suite->tests);
+    test_info_t *cur = basic_suite->tests, *next = NULL;
+    while (cur)
+    {
+        next = cur->next_test;
+        free(cur);
+        cur = next;
+    }
 }
 /***************************************************/
 
 /***************************************************/
 test_info_t *test1_info;
-void test1(int *result, char **msg)
+void test1(test_info_t *test_info)
 {
-    printf("In test 1\n");
-    *result = 5;
-    *msg = "test1 message";
+    test_info->result = 5;
+    test_info->msg = "test1 message";
 }
 __attribute__((constructor))
 void register_test1()
 {
-    printf("Registering test\n");
-    test1_info = clist_add_last(basic_suite->tests);
-    test1_info->test = test1;
+    test1_info = calloc(1, sizeof(test_info_t));
+    test1_info->next_test = basic_suite->tests;
+    basic_suite->tests = test1_info;
+    test1_info->test_fcn = test1;
 }
 /***************************************************/
 
 /***************************************************/
 test_info_t *test2_info;
-void test2(int *result, char **msg)
+void test2(test_info_t *test_info)
 {
-    printf("In test 2\n");
-    *result = 5;
-    *msg = "test2 message";
+    test_info->result = 3;
+    test_info->msg = "test2 message";
 }
 __attribute__((constructor))
 void register_test2()
 {
-    printf("Registering test\n");
-    test2_info = clist_add_last(basic_suite->tests);
-    test2_info->test = test2;
+    test2_info = calloc(1, sizeof(test_info_t));
+    test2_info->next_test = basic_suite->tests;
+    basic_suite->tests = test2_info;
+    test2_info->test_fcn = test2;
 }
 /***************************************************/
 
 static void lightunit_execute_suite(suite_t *suite)
 {
-    test_info_t *test;
-    clist_iterate(suite->tests, test)
+    test_info_t *test_info = suite->tests;
+    while (test_info)
     {
-        test->test(&test->result, &test->msg);
-        suite->status |= test->result;
+        test_info->test_fcn(test_info);
+        suite->status |= test_info->result;
+        test_info = test_info->next_test;
     }
 }
 
 static void lightunit_report_suite(suite_t *suite)
 {
-    test_info_t *test;
-    clist_iterate(suite->tests, test)
+    test_info_t *test_info = suite->tests;
+    while (test_info)
     {
-        printf("STATUS: %2d, MSG: %s\n", test->result, test->msg);
+        printf("STATUS: %2d, MSG: %s\n", test_info->result, test_info->msg);
+        test_info = test_info->next_test;
     }
 }
 

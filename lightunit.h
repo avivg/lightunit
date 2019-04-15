@@ -1,6 +1,8 @@
 #ifndef LIGHTUNIT_HEADER_FILE_INCLUDED
 #define LIGHTUNIT_HEADER_FILE_INCLUDED
 
+#include <stdlib.h>
+#include <stdio.h>
 
 /*****************************************************
  *             ASSERTIONS                            *

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <lightunit.h>
+#include "lightunit.h"
 
 LU_TEST_SUITE(basic_suite);
 
@@ -56,5 +56,7 @@ int main()
     LU_SUITE_RUN(suite2);
     LU_SUITE_REPORT(suite2);
 
-    return 0;
+    return ((LU_SUITE_STATUS(basic_suite) == (-2 | -1)) &&
+            (LU_SUITE_STATUS(suite2) == (-1)))
+             ? 0 : 1;
 }

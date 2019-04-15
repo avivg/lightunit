@@ -18,50 +18,44 @@ magic to automagically register each test to its test suite without the need to 
 
 ## Usage:
 
-    #include <stdio.h>
+    #include "lightunit.h"
 
-    #include <lightunit.h>
+    static int g_var;
+    static const char *g_foo = "foo";
 
-    LU_TEST_SUITE(basic_suite);
-
-    LU_SUITE_SETUP(basic_suite)
-    {
-        printf("Suite test setup\n");
+    LU_TEST_SUITE(suite);
+    LU_SUITE_SETUP(suite) {
+        g_var = 1;
     }
 
-    LU_SUITE_TEARDOWN(basic_suite)
-    {
-        printf("Suite test teardown\n");
+    LU_TEST(suite, test1) {
+        LU_ASSERT(g_var == 1);
+        g_var++;
+        LU_ASSERT_STR_EQ("foo", g_foo);
+        LU_ASSERT(2 == 3);
     }
 
-    LU_TEST(basic_suite, test_1)
-    {
-        LU_ASSERT(1 == 1);
+    LU_TEST(suite, test2) {
+        LU_ASSERT(++g_var == 2);
+        LU_ASSERT_STR_EQ("bar", g_foo);
     }
 
-    LU_TEST(basic_suite, test_2)
-    {
-        LU_ASSERT(1 == 2);
-    }
-
-    int main()
-    {
-        LU_SUITE_RUN(basic_suite);
-        LU_SUITE_REPORT(basic_suite);
-        printf("Suite Status: %d\n", LU_SUITE_STATUS(basic_suite));
-        return 0;
+    int main() {
+        LU_SUITE_RUN(suite);
+        LU_SUITE_REPORT(suite);
+        return LU_SUITE_STATUS(suite);
     }
     
 Prints:
 
-    Suite test setup
-    Suite test teardown
-    Suite test setup
-    Suite test teardown
-    SUITE: basic_suite
-     > test_2                        : -1 ('1 == 2' asserted to False)
-     > test_1                        :  0 (OK)
-    Suite Status: -1
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    SUITE: suite
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    > test2                         : -2 (readme_example.c+20: Strings different: "bar" <> g_foo)
+    > test1                         : -1 (readme_example.c+15: '2 == 3' asserted to False)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    STATUS: FAIL (2 tests, 2 fails, 5 assertions)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ## TODO
 * Add verbosity options to report

@@ -17,24 +17,22 @@ LU_SUITE_TEARDOWN(basic_suite)
 
 LU_TEST(basic_suite, test_1)
 {
-    test_info->result = 5;
-    test_info->msg = "message1";
+    LU_ASSERT(1 == 1);
 }
 
 LU_TEST(basic_suite, test_2)
 {
-    test_info->result = 3;
-    test_info->msg = "message2";
+    LU_ASSERT(1 == 2);
 }
 
 LU_TEST_SUITE(suite2);
 LU_TEST(suite2, test_1)
 {
-    test_info->msg = "message3";
+    LU_ASSERT(NULL);
 }
 LU_TEST(suite2, test_2)
 {
-    test_info->msg = "message4";
+    LU_ASSERT(0);
 }
 
 static void lightunit_execute_suite(suite_t *suite)

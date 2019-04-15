@@ -59,9 +59,9 @@ Prints:
 * Improve suite results reporting
 * Add verbosity options
 * Add more assertion types
-** `ASSERT_STR_EQ`
-** `ASSERT_FLT_EQ` / `ASSERT_DBL_EQ` for float/double approx.
-** `FAIL(message)`
+  * `ASSERT_STR_EQ`
+  * `ASSERT_FLT_EQ` / `ASSERT_DBL_EQ` for float/double approx.
+  * `FAIL(message)`
 * Setup CI
 * Tests timing
 * Other compilers support

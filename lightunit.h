@@ -172,6 +172,7 @@ do {                                                \
 
 #define _LU_ASSERT(expr__)                                  \
 do{                                                         \
+    lut_tst_info__->assertions++;                           \
     if(!(expr__))                                           \
     {                                                       \
         _LU_FAIL(-1, "'" #expr__ "' asserted to False");    \
@@ -184,6 +185,7 @@ do{                                                         \
 do {                                                                \
     const char *exp_p__ = (exp__);                                  \
     const char *res_p__ = (res__);                                  \
+    lut_tst_info__->assertions++;                                   \
     while ((*exp_p__) && (*res_p__) &&                              \
            (*exp_p__++ == *res_p__++));                             \
     if (*exp_p__ || *res_p__)                                       \
@@ -199,6 +201,7 @@ struct lut_test_info_s
     lut_test_info_t *next_test;
     lut_test_fcn_t test_fcn;
     int result;
+    int assertions;
     const char *msg;
     const char *test_name;
 };
@@ -228,23 +231,24 @@ do {                                                \
 
 #define _LIGHTUNIT_REPORT_SUITE(suite)                                                      \
 do {                                                                                        \
-    lut_test_info_t *test_info = suite->tests;                                              \
-    int tests = 0, fails = 0;                                                               \
+    lut_test_info_t *test_info__ = suite->tests;                                            \
+    int tests__ = 0, fails__ = 0, assertions__ = 0;                                         \
     printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");    \
     printf("SUITE: %s\n", suite->name);                                                     \
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");      \
-    while (test_info)                                                                       \
+    while (test_info__)                                                                     \
     {                                                                                       \
-        tests++;                                                                            \
-        printf("> %-30s: % 2d (%s)\n", test_info->test_name,                                \
-               test_info->result, test_info->msg);                                          \
-        fails += ((test_info->result != 0) ? 1 : 0);                                        \
-        test_info = test_info->next_test;                                                   \
+        tests__++;                                                                          \
+        printf("> %-30s: % 2d (%s)\n", test_info__->test_name,                              \
+               test_info__->result, test_info__->msg);                                      \
+        fails__ += ((test_info__->result != 0) ? 1 : 0);                                    \
+        assertions__ += test_info__->assertions;                                            \
+        test_info__ = test_info__->next_test;                                               \
     }                                                                                       \
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");      \
-    printf("STATUS: %s (%d fails / %d tests)\n",                                            \
+    printf("STATUS: %s (%d tests, %d fails, %d assertions)\n",                              \
             LU_SUITE_STATUS(suite) ? "FAIL" : "PASS",                                       \
-            fails, tests);                                                                  \
+            tests__, fails__, assertions__);                                                \
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");    \
 } while(0)
 

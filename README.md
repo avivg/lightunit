@@ -14,7 +14,7 @@ magic to automagically register each test to its test suite without the need to 
 - Easily extensible (PRs wellcome).
 
 ### Weaknesses
-- Requires support for __attribute__((constructor)) from the compiler.
+- Requires support for `__attribute__((constructor))` from the compiler.
 
 ## Usage:
 
@@ -62,6 +62,5 @@ Prints:
 * Add more assertion types
   * `ASSERT_FLT_EQ` / `ASSERT_DBL_EQ` for float/double approx.
   * `FAIL(message)`
-* Setup CI
-* Tests timing
+* Time tests
 * Other compilers support

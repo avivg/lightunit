@@ -56,8 +56,7 @@ Prints:
     Suite Status: -1
 
 ## TODO
-* Improve suite results reporting
-* Add verbosity options
+* Add verbosity options to report
 * Add more assertion types
   * `ASSERT_STR_EQ`
   * `ASSERT_FLT_EQ` / `ASSERT_DBL_EQ` for float/double approx.

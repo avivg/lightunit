@@ -150,12 +150,16 @@ void TEST_FCN(snm__, tnm__)(lut_test_info_t *lut_tst_info__)
 
 #define _LU_SUITE_STATUS(snm__) ((snm__)->status)
 
+#define _STRINGIFY(d_)  #d_
+#define STRINGIFY(d_)   _STRINGIFY(d_)
+#define ERR_LOC         __FILE__ "+" STRINGIFY(__LINE__)
+
 #define _LU_ASSERT(expr__)                                          \
 do{                                                                 \
     if(!(expr__))                                                   \
     {                                                               \
         lut_tst_info__->result = -1;                                \
-        lut_tst_info__->msg = "'" #expr__ "' asserted to False";    \
+        lut_tst_info__->msg = ERR_LOC ": '" #expr__ "' asserted to False" ;   \
         return;                                                     \
     }                                                               \
 } while(0)

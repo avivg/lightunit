@@ -1,7 +1,7 @@
 
 CFLAGS ?= -Wall -Werror -pedantic -ansi
 
-.PHONY: all clean
+.PHONY: all clean run_test
 
 all: test.out readme.out
 
@@ -13,3 +13,6 @@ readme.out: examples/readme_example.c lightunit.h
 
 clean:
 	rm -f test.out readme.out
+
+run_test: test.out
+	./test.out

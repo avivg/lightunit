@@ -16,8 +16,8 @@
             _LU_ASSERT(expr)
 
 /**
- * Compare 2 c-strings (const char*) and stop the test
- * with negative result if they are not identical.
+ * Compare 2 c-strings (NULL terminated const char*) and
+ * stop the test with negative result if they are not identical.
  */
 #define LU_ASSERT_STR_EQ(expected_str, result_str)  \
             _LU_ASSERT_STR_EQ(expected_str, result_str)
@@ -30,8 +30,8 @@
 /**
  * Create a test suite
  */
-#define LU_TEST_SUITE(suite_name)   \
-            _LU_TEST_SUITE(suite_name)
+#define LU_SUITE_CREATE(suite_name)   \
+            _LU_SUITE_CREATE(suite_name)
 
 /**
  * Create a setup procedure to be called before each test.
@@ -91,7 +91,7 @@
  *                  IMPLEMENTATION                     *
  *******************************************************/
 
-#define _LU_TEST_SUITE(snm__)                           \
+#define _LU_SUITE_CREATE(snm__)                         \
 suite_t snm__##_obj = {0};                              \
 suite_t *snm__ = &snm__##_obj;                          \
 __attribute__((constructor))                            \

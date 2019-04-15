@@ -4,7 +4,7 @@
 static int g_var;
 static const char *g_foo = "foo";
 
-LU_TEST_SUITE(suite);
+LU_SUITE_CREATE(suite);
 LU_SUITE_SETUP(suite) {
     g_var = 1;
 }

@@ -1,4 +1,4 @@
-# LightUnit
+# LightUnit [![Build Status](https://travis-ci.org/avivg/lightunit.svg?branch=master)](https://travis-ci.org/avivg/lightunit)
 > Lightweight unit testing harness for C projects.
 
 Inspired by [siu/minunit](https://github.com/siu/minunit) and [MinUnit](http://www.jera.com/techinfo/jtns/jtn002.html).

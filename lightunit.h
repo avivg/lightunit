@@ -65,8 +65,8 @@ static void suite_name__##_teardown__()
 
 
 #define TEST_FCN(snm__, tnm__)     snm__##__##tnm__
-#define TEST_INF(snm__, tnm__)     snm__##__##tnm__##__##_info
-#define TEST_REG(snm__, tnm__)     snm__##__##tnm__##__##_register
+#define TEST_INF(snm__, tnm__)     snm__##__##tnm__##__info
+#define TEST_REG(snm__, tnm__)     snm__##__##tnm__##__register
 
 #define LU_TEST(suite_name__, test_name__)                                                  \
 test_info_t * TEST_INF(suite_name__, test_name__);                                          \
@@ -92,6 +92,7 @@ do{                                                             \
         test_info->result = -1;                                 \
         test_info->msg = "'" #expr__ "' asserted to False";     \
         return;                                                 \
-    }} while(0)
+    }                                                           \
+} while(0)
 
 #endif /* LIGHTUNIT_HEADER_FILE_INCLUDED */

@@ -27,6 +27,15 @@ LU_TEST(basic_suite, test_2)
     test_info->msg = "message2";
 }
 
+LU_TEST_SUITE(suite2);
+LU_TEST(suite2, test_1)
+{
+    test_info->msg = "message3";
+}
+LU_TEST(suite2, test_2)
+{
+    test_info->msg = "message4";
+}
 
 static void lightunit_execute_suite(suite_t *suite)
 {
@@ -62,6 +71,11 @@ int main()
     lightunit_execute_suite(basic_suite);
     lightunit_report_suite(basic_suite);
     printf("Suite Status: %d\n", lightunit_status_suite(basic_suite));
+
+    lightunit_execute_suite(suite2);
+    lightunit_report_suite(suite2);
+    printf("Suite Status: %d\n", lightunit_status_suite(suite2));
+
     printf("main done\n");
     return 0;
 }

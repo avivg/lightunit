@@ -15,4 +15,4 @@ clean:
 	rm -f test.out readme.out
 
 run_test: test.out
-	./test.out
+	valgrind --leak-check=full --error-exitcode=2 ./test.out

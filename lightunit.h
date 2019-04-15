@@ -8,12 +8,19 @@
  *             ASSERTIONS                            *
  *****************************************************/
 
-/*
+/**
  * Check if condition is true. Stops the test with
  * negative result if it is not.
  */
 #define LU_ASSERT(expr)     \
             _LU_ASSERT(expr)
+
+/**
+ * Compare 2 c-strings (const char*) and stop the test
+ * with negative result if they are not identical.
+ */
+#define LU_ASSERT_STR_EQ(expected_str, result_str)  \
+            _LU_ASSERT_STR_EQ(expected_str, result_str)
 
 
 /*****************************************************
@@ -156,15 +163,32 @@ void TEST_FCN(snm__, tnm__)(lut_test_info_t *lut_tst_info__)
 #define STRINGIFY(d_)   _STRINGIFY(d_)
 #define ERR_LOC         __FILE__ "+" STRINGIFY(__LINE__)
 
-#define _LU_ASSERT(expr__)                                          \
-do{                                                                 \
-    if(!(expr__))                                                   \
-    {                                                               \
-        lut_tst_info__->result = -1;                                \
-        lut_tst_info__->msg = ERR_LOC ": '" #expr__ "' asserted to False" ;   \
-        return;                                                     \
-    }                                                               \
+#define _LU_FAIL(code__, msg__)                     \
+do {                                                \
+        lut_tst_info__->result = code__;            \
+        lut_tst_info__->msg = ERR_LOC ": " msg__;   \
+        return;                                     \
+} while (0)
+
+#define _LU_ASSERT(expr__)                                  \
+do{                                                         \
+    if(!(expr__))                                           \
+    {                                                       \
+        _LU_FAIL(-1, "'" #expr__ "' asserted to False");    \
+        return;                                             \
+    }                                                       \
 } while(0)
+
+
+#define _LU_ASSERT_STR_EQ(exp__, res__)                             \
+do {                                                                \
+    const char *exp_p__ = (exp__);                                  \
+    const char *res_p__ = (res__);                                  \
+    while ((*exp_p__) && (*res_p__) &&                              \
+           (*exp_p__++ == *res_p__++));                             \
+    if (*exp_p__ || *res_p__)                                       \
+        _LU_FAIL(-2, "Strings different: " #exp__ " <> " #res__);   \
+} while (0)
 
 
 typedef struct lut_test_info_s lut_test_info_t;

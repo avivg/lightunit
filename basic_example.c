@@ -23,6 +23,20 @@ LU_TEST(basic_suite, test_2)
     LU_ASSERT(1 == 2);
 }
 
+LU_TEST(basic_suite, test_3)
+{
+    LU_ASSERT_STR_EQ("foo", "foo");
+    LU_ASSERT_STR_EQ("foo", "bar");
+}
+
+LU_TEST(basic_suite, test_4)
+{
+    char *foo = "foo";
+    char *bar = "bar";
+    LU_ASSERT_STR_EQ(foo, foo);
+    LU_ASSERT_STR_EQ(foo, bar);
+}
+
 LU_TEST_SUITE(suite2);
 LU_TEST(suite2, test_1)
 {

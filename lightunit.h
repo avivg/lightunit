@@ -85,13 +85,13 @@ void TEST_REG(suite_name__, test_name__)()                                      
 void TEST_FCN(suite_name__, test_name__)(test_info_t *test_info)
 
 
-#define LU_ASSERT(expr__)   \
-do{ \
-    if(!(expr__)) \
-    { \
-        test_info->result = -1; \
-        test_info->msg = "'" #expr__ "' asserted to False"; \
-        return; \
+#define LU_ASSERT(expr__)                                       \
+do{                                                             \
+    if(!(expr__))                                               \
+    {                                                           \
+        test_info->result = -1;                                 \
+        test_info->msg = "'" #expr__ "' asserted to False";     \
+        return;                                                 \
     }} while(0)
 
 #endif /* LIGHTUNIT_HEADER_FILE_INCLUDED */

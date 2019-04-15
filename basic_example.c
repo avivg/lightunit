@@ -54,7 +54,7 @@ static void lightunit_report_suite(suite_t *suite)
     printf("SUITE: %s\n", suite->name);
     while (test_info)
     {
-        printf(" > %-30s: %d (%s)\n", test_info->test_name, test_info->result, test_info->msg);
+        printf(" > %-30s: % 2d (%s)\n", test_info->test_name, test_info->result, test_info->msg);
         test_info = test_info->next_test;
     }
 }

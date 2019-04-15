@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include <lightunit.h>
 
 LU_TEST_SUITE(basic_suite);
@@ -39,12 +38,9 @@ int main()
 {
     LU_SUITE_RUN(basic_suite);
     LU_SUITE_REPORT(basic_suite);
-    printf("Suite Status: %d\n", LU_SUITE_STATUS(basic_suite));
 
     LU_SUITE_RUN(suite2);
     LU_SUITE_REPORT(suite2);
-    printf("Suite Status: %d\n", LU_SUITE_STATUS(suite2));
 
-    printf("main done\n");
     return 0;
 }

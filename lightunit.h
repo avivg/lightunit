@@ -199,13 +199,23 @@ static void _lightunit_execute_suite(suite_t *suite)
 static void _lightunit_report_suite(suite_t *suite)
 {
     lut_test_info_t *test_info = suite->tests;
+    int tests = 0, fails = 0;
+    printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("SUITE: %s\n", suite->name);
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     while (test_info)
     {
-        printf(" > %-30s: % 2d (%s)\n", test_info->test_name,
+        tests++;
+        printf("> %-30s: % 2d (%s)\n", test_info->test_name,
                test_info->result, test_info->msg);
+        fails += ((test_info->result != 0) ? 1 : 0);
         test_info = test_info->next_test;
     }
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("STATUS: %s (%d fails / %d tests)\n",
+            LU_SUITE_STATUS(suite) ? "FAIL" : "PASS",
+            fails, tests);
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 }
 
 

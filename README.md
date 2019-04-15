@@ -6,7 +6,15 @@ Inspired by [siu/minunit](https://github.com/siu/minunit) and [MinUnit](http://w
 This unit testing harness uses GCC's [`__attribute__((constructor))`](https://gcc.gnu.org/onlinedocs/gcc-4.7.0/gcc/Function-Attributes.html)
 magic to automagically register each test to its test suite without the need to do so explicitely.
 
-On the other hand, it is a light and easily extensible framework, consisting of a single `.h` file.
+### Strengths
+- Lightweight and easy to install (just a `.h` file)
+- Simple tests management interface
+  - define suites and define the tests.
+  - No need to add the tests to the suites explicitly.
+- Easily extensible (PRs wellcome).
+
+### Weaknesses
+- Requires support for __attribute__((constructor)) from the compiler.
 
 ## Usage:
 

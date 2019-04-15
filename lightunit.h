@@ -144,9 +144,11 @@ void TEST_REG(snm__, tnm__)()                                       \
 }                                                                   \
 void TEST_FCN(snm__, tnm__)(lut_test_info_t *lut_tst_info__)
 
-#define _LU_SUITE_RUN(snm__)  _lightunit_execute_suite(snm__)
+#define _LU_SUITE_RUN(snm__)  \
+            _LIGHTUNIT_EXECUTE_SUITE(snm__)
 
-#define _LU_SUITE_REPORT(snm__) _lightunit_report_suite(snm__)
+#define _LU_SUITE_REPORT(snm__)     \
+            _LIGHTUNIT_REPORT_SUITE(snm__)
 
 #define _LU_SUITE_STATUS(snm__) ((snm__)->status)
 
@@ -187,40 +189,40 @@ typedef struct
 } suite_t;
 
 
-static void _lightunit_execute_suite(suite_t *suite)
-{
-    lut_test_info_t *test_info = suite->tests;
-    while (test_info)
-    {
-        if (suite->setup) suite->setup();
-        test_info->test_fcn(test_info);
-        if (suite->teardown) suite->teardown();
-        suite->status |= test_info->result;
-        test_info = test_info->next_test;
-    }
-}
+#define _LIGHTUNIT_EXECUTE_SUITE(snm__)             \
+do {                                                \
+    lut_test_info_t *test_info__ = snm__->tests;    \
+    while (test_info__)                             \
+    {                                               \
+        if (snm__->setup) snm__->setup();           \
+        test_info__->test_fcn(test_info__);         \
+        if (snm__->teardown) snm__->teardown();     \
+        snm__->status |= test_info__->result;       \
+        test_info__ = test_info__->next_test;       \
+    }                                               \
+} while (0)
 
-static void _lightunit_report_suite(suite_t *suite)
-{
-    lut_test_info_t *test_info = suite->tests;
-    int tests = 0, fails = 0;
-    printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-    printf("SUITE: %s\n", suite->name);
-    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-    while (test_info)
-    {
-        tests++;
-        printf("> %-30s: % 2d (%s)\n", test_info->test_name,
-               test_info->result, test_info->msg);
-        fails += ((test_info->result != 0) ? 1 : 0);
-        test_info = test_info->next_test;
-    }
-    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-    printf("STATUS: %s (%d fails / %d tests)\n",
-            LU_SUITE_STATUS(suite) ? "FAIL" : "PASS",
-            fails, tests);
-    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
-}
+#define _LIGHTUNIT_REPORT_SUITE(suite)                                                      \
+do {                                                                                        \
+    lut_test_info_t *test_info = suite->tests;                                              \
+    int tests = 0, fails = 0;                                                               \
+    printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");    \
+    printf("SUITE: %s\n", suite->name);                                                     \
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");      \
+    while (test_info)                                                                       \
+    {                                                                                       \
+        tests++;                                                                            \
+        printf("> %-30s: % 2d (%s)\n", test_info->test_name,                                \
+               test_info->result, test_info->msg);                                          \
+        fails += ((test_info->result != 0) ? 1 : 0);                                        \
+        test_info = test_info->next_test;                                                   \
+    }                                                                                       \
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");      \
+    printf("STATUS: %s (%d fails / %d tests)\n",                                            \
+            LU_SUITE_STATUS(suite) ? "FAIL" : "PASS",                                       \
+            fails, tests);                                                                  \
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");    \
+} while(0)
 
 
 #endif /* LIGHTUNIT_HEADER_FILE_INCLUDED */

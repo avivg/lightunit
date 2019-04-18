@@ -98,17 +98,7 @@ __attribute__((constructor))                            \
 void init_##snm__()                                     \
 {                                                       \
     snm__->name = #snm__ ;                              \
-}                                                       \
-__attribute__((destructor))                             \
-void destroy_##snm__() {                                \
-    lut_test_info_t *cur = snm__->tests, *next = NULL;  \
-    while (cur)                                         \
-    {                                                   \
-        next = cur->next_test;                          \
-        free(cur);                                      \
-        cur = next;                                     \
-    }                                                   \
-}                                                       \
+}                                                       \                                                       \
 void snm__##_dummy_fcn(void)
 
 
@@ -137,12 +127,13 @@ static void snm__##_teardown__()
 #define TEST_REG(snm__, tnm__)     snm__##__##tnm__##__register
 
 #define _LU_TEST(snm__, tnm__)                                      \
+lut_test_info_t TEST_INF(snm__, tnm__)##_obj = {0};                 \
 lut_test_info_t * TEST_INF(snm__, tnm__);                           \
 extern void TEST_FCN(snm__, tnm__)(lut_test_info_t *);              \
 __attribute__((constructor))                                        \
 void TEST_REG(snm__, tnm__)()                                       \
 {                                                                   \
-    TEST_INF(snm__, tnm__) = calloc(1, sizeof(lut_test_info_t));    \
+    TEST_INF(snm__, tnm__) = &(TEST_INF(snm__, tnm__)##_obj);       \
     TEST_INF(snm__, tnm__)->next_test = snm__->tests;               \
     snm__->tests = TEST_INF(snm__, tnm__);                          \
     TEST_INF(snm__, tnm__)->test_fcn = TEST_FCN(snm__, tnm__);      \

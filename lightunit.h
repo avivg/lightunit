@@ -127,18 +127,16 @@ static void snm__##_teardown__()
 #define TEST_REG(snm__, tnm__)     snm__##__##tnm__##__register
 
 #define _LU_TEST(snm__, tnm__)                                      \
-lut_test_info_t TEST_INF(snm__, tnm__)##_obj = {0};                 \
-lut_test_info_t * TEST_INF(snm__, tnm__);                           \
+lut_test_info_t TEST_INF(snm__, tnm__) = {0};                 \
 extern void TEST_FCN(snm__, tnm__)(lut_test_info_t *);              \
 __attribute__((constructor))                                        \
 void TEST_REG(snm__, tnm__)()                                       \
 {                                                                   \
-    TEST_INF(snm__, tnm__) = &(TEST_INF(snm__, tnm__)##_obj);       \
-    TEST_INF(snm__, tnm__)->next_test = snm__->tests;               \
-    snm__->tests = TEST_INF(snm__, tnm__);                          \
-    TEST_INF(snm__, tnm__)->test_fcn = TEST_FCN(snm__, tnm__);      \
-    TEST_INF(snm__, tnm__)->test_name = #tnm__;                     \
-    TEST_INF(snm__, tnm__)->msg = "OK";                             \
+    TEST_INF(snm__, tnm__).next_test = snm__->tests;               \
+    snm__->tests = &TEST_INF(snm__, tnm__);                          \
+    TEST_INF(snm__, tnm__).test_fcn = TEST_FCN(snm__, tnm__);      \
+    TEST_INF(snm__, tnm__).test_name = #tnm__;                     \
+    TEST_INF(snm__, tnm__).msg = "OK";                             \
 }                                                                   \
 void TEST_FCN(snm__, tnm__)(lut_test_info_t *lut_tst_info__)
 

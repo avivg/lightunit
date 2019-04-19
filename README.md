@@ -12,6 +12,7 @@ magic to automagically register each test to its test suite without the need to 
   - define suites and define the tests.
   - No need to add the tests to the suites explicitly.
 - Easily extensible (PRs wellcome).
+- No dynamic memory allocations.
 
 ### Weaknesses
 - Requires support for `__attribute__((constructor))` from the compiler.

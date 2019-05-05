@@ -132,8 +132,12 @@ extern void TEST_FCN(snm__, tnm__)(lut_test_info_t *);              \
 __attribute__((constructor))                                        \
 void TEST_REG(snm__, tnm__)()                                       \
 {                                                                   \
-    TEST_INF(snm__, tnm__).next_test = snm__->tests;                \
-    snm__->tests = &TEST_INF(snm__, tnm__);                         \
+    if (snm__->last_test) {                                         \
+        snm__->last_test->next_test = &TEST_INF(snm__, tnm__);      \
+    } else {                                                        \
+        snm__->tests = &TEST_INF(snm__, tnm__);                     \
+    }                                                               \
+    snm__->last_test = &TEST_INF(snm__, tnm__);                     \
     TEST_INF(snm__, tnm__).test_fcn = TEST_FCN(snm__, tnm__);       \
     TEST_INF(snm__, tnm__).test_name = #tnm__;                      \
     TEST_INF(snm__, tnm__).msg = "OK";                              \
@@ -198,6 +202,7 @@ struct lut_test_info_s
 typedef struct
 {
     lut_test_info_t *tests;
+    lut_test_info_t *last_test;
     void (*setup)();
     void (*teardown)();
     int status;

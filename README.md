@@ -53,8 +53,8 @@ Prints:
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     SUITE: suite
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    > test2                         : -2 (readme_example.c+20: Strings different: "bar" <> g_foo)
-    > test1                         : -1 (readme_example.c+15: '2 == 3' asserted to False)
+    > test1                         : -1 (examples/readme_example.c+16: '2 == 3' asserted to False)
+    > test2                         : -2 (examples/readme_example.c+21: Strings different: "bar" <> g_foo)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     STATUS: FAIL (2 tests, 2 fails, 5 assertions)
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
